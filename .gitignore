@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+autoprueba_salida/
+autoprueba_resultado.txt
+mis_proyectos/*
+!mis_proyectos/LEEME.txt
+*_enrutado.kicad_pcb
+*_drc_kicad.json

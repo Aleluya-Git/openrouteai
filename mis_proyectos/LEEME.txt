@@ -1,0 +1,1 @@
+Copia aquí carpetas de proyectos KiCad (.kicad_pro + .kicad_pcb) para que la autoprueba los enrute.
