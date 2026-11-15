@@ -38,6 +38,8 @@ def dark_palette() -> QPalette:
 def apply_theme(mode: str, app=None) -> str:
     app = app or QApplication.instance()
     mode = mode if mode in THEMES else "light"
+    from . import icons
+    icons.set_dark(mode == "dark")
     if app is None:
         return mode
     app.setStyle("Fusion")

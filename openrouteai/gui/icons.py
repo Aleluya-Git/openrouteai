@@ -153,10 +153,24 @@ def _draw(name: str, qp: QPainter):
 _ICON_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources", "icons")
 
 
+_dark = False
+
+
+def set_dark(dark: bool) -> None:
+    """Tema oscuro: se usan las variantes «nombre_dark.png» (más claras) cuando existen."""
+    global _dark
+    if bool(dark) != _dark:
+        _dark = bool(dark)
+        _cache.clear()
+
+
 def icon(name: str) -> QIcon:
     """Icono de la barra de herramientas: imagen de resources/icons si existe, si no se dibuja."""
     if name not in _cache:
         png = os.path.join(_ICON_DIR, name + ".png")
+        dark_png = os.path.join(_ICON_DIR, name + "_dark.png")
+        if _dark and os.path.exists(dark_png):
+            png = dark_png
         if os.path.exists(png):
             base = QPixmap(png)
             if not base.isNull():

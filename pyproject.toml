@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openrouteai"
-version = "0.6.2"
+version = "0.6.3"
 description = "Autorouter de PCB de código abierto para proyectos KiCad"
 readme = "README.md"
 license = {text = "GPL-3.0-or-later"}

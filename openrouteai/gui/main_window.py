@@ -164,9 +164,11 @@ class MainWindow(QMainWindow):
         tb.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         tb.setMovable(False)
         self.addToolBar(Qt.TopToolBarArea, tb)
+        self._icon_actions = []
 
         def act(name, text, tip, slot, shortcut=None, checkable=False):
             a = QAction(icon(name), text, self)
+            self._icon_actions.append((a, name))
             a.setToolTip(tip)
             a.setCheckable(checkable)
             if shortcut:
@@ -312,6 +314,9 @@ class MainWindow(QMainWindow):
         from .theme import apply_theme
         mode = apply_theme("dark" if dark else "light")
         save_config(theme=mode)
+        from .icons import icon
+        for a, name in self._icon_actions:          # iconos más claros en tema oscuro
+            a.setIcon(icon(name))
         self.statusBar().showMessage(tr("Tema oscuro") if dark else tr("Tema claro"))
 
     def _about(self):

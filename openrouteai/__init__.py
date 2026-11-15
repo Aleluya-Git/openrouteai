@@ -3,5 +3,5 @@
 Licencia: GPL-3.0-or-later
 """
 
-__version__ = "0.6.2"
+__version__ = "0.6.3"
 APP_NAME = "OpenRouteAI"
