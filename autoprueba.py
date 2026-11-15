@@ -471,6 +471,10 @@ def main():
             w.grab().save(os.path.join(OUT, "gui_3d.png"))
             w.run_drc()
             check("GUI: ventana, vista 2D, vista 3D y DRC", True, "capturas gui_2d.png y gui_3d.png")
+            from openrouteai.gui.branding import app_icon, logo_pixmap, resource
+            lp = logo_pixmap()
+            check("GUI: logo e icono de OpenRouteAI", not lp.isNull() and not app_icon().isNull() and
+                  os.path.exists(resource("icon.ico")), f"logo {lp.width()}x{lp.height()} px, icon.png + icon.ico")
             from openrouteai.gui.icons import save_preview
             save_preview(os.path.join(OUT, "gui_iconos.png"))
             check("GUI: barra de herramientas con iconos", w.act_route.icon().isNull() is False,

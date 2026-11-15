@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/logo.png" alt="OpenRouteAI — Automatic PCB routing for KiCad" width="720"></p>
+
 # OpenRouteAI
 
 Autorouter de PCB de código abierto para proyectos **KiCad** (formatos KiCad 6 a 10+).
@@ -7,7 +9,7 @@ que se abre directamente en KiCad.
 
 Multiplataforma (Windows, Linux, macOS) · Python 3.10+ · NumPy/SciPy · Qt 6 (PySide6) · GPL-3.0-or-later
 
-> Estado: **v0.6.0**. El enrutado de placas de 2 y 4 capas con SMD y THT funciona
+> Estado: **v0.6.1**. El enrutado de placas de 2 y 4 capas con SMD y THT funciona
 > y se valida automáticamente con DRC propio y, si está instalado, con el DRC oficial de KiCad
 > (`kicad-cli`). Lo que aún no está implementado se detalla en [ROADMAP.md](ROADMAP.md).
 
@@ -22,6 +24,7 @@ Multiplataforma (Windows, Linux, macOS) · Python 3.10+ · NumPy/SciPy · Qt 6 (
 | `autoprueba.bat` / `autoprueba.sh` | Batería de pruebas → `autoprueba_resultado.txt` + imágenes en `autoprueba_salida/` |
 | `enrutar.bat proyecto.kicad_pro` | Enruta desde la línea de comandos |
 | `install_gpu.bat` / `install_gpu.sh` | (Opcional) instala CuPy para usar una GPU NVIDIA |
+| `crear_acceso_directo.bat` | (Windows) acceso directo en el escritorio con el icono de OpenRouteAI, sin consola |
 
 ## Flujo de trabajo con KiCad
 

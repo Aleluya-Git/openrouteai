@@ -111,6 +111,30 @@ class BoardView(QGraphicsView):
         self._orig_style: Dict[int, tuple] = {}
         self.sel_nets: set = set()
         self._pan = None
+        self._show_welcome()
+
+    def _show_welcome(self):
+        """Logo y aviso mientras no hay ninguna placa abierta."""
+        from .branding import logo_pixmap
+        sc = self.scene()
+        pm = logo_pixmap(900)
+        if pm.isNull():
+            return
+        it = sc.addPixmap(pm)
+        it.setTransformationMode(Qt.SmoothTransformation)
+        it.setOpacity(0.9)
+        t = sc.addSimpleText(tr("Abre un proyecto KiCad (.kicad_pro o .kicad_pcb)"))
+        f = QFont("Arial")
+        f.setPointSizeF(16)
+        t.setFont(f)
+        t.setBrush(QBrush(QColor(170, 180, 190)))
+        t.setPos((pm.width() - t.boundingRect().width()) / 2, pm.height() + 30)
+        sc.setSceneRect(sc.itemsBoundingRect().adjusted(-80, -80, 80, 80))
+
+    def resizeEvent(self, ev):
+        super().resizeEvent(ev)
+        if self.board is None and self.scene() is not None:
+            self.fitInView(self.scene().sceneRect(), Qt.KeepAspectRatio)
 
     # ------------------------------------------------------------ dibujo
     def set_board(self, board: Board, refit: bool = True):
@@ -122,6 +146,7 @@ class BoardView(QGraphicsView):
     def rebuild(self, congestion=None, grid_info=None, show_ratsnest=True):
         sc = self.scene()
         sc.clear()
+        sc.setSceneRect(QRectF())          # vuelve al tamaño automático (tras el logo de bienvenida)
         self.layer_items.clear()
         self.net_items.clear()
         self.cat_items = {k: [] for k in CATEGORIES}

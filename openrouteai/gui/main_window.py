@@ -85,6 +85,8 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle(f"{APP_NAME} {__version__}")
+        from .branding import app_icon
+        self.setWindowIcon(app_icon())
         self.resize(1500, 920)
         self.project = None
         self.result = None
@@ -276,10 +278,18 @@ class MainWindow(QMainWindow):
 
     def _about(self):
         from ..routing import gpu as _gpu, native as _native
-        QMessageBox.about(self, APP_NAME,
-                          f"<b>{APP_NAME} {__version__}</b><br>" + tr("Autorouter de PCB de código abierto para KiCad.") +
-                          "<br>" + tr("Búsqueda:") + f" {_native.status()}<br>GPU: {_gpu.short_status()}<br>" +
-                          tr("Licencia GPL-3.0-or-later."))
+        from .branding import logo_pixmap
+        box = QMessageBox(self)
+        box.setWindowTitle(tr("Acerca de") + f" {APP_NAME}")
+        pm = logo_pixmap(420)
+        if not pm.isNull():
+            box.setIconPixmap(pm)
+        box.setText(f"<b>{APP_NAME} {__version__}</b><br>" + tr("Autorouter de PCB de código abierto para KiCad.") +
+                    "<br>" + tr("Búsqueda:") + f" {_native.status()}<br>GPU: {_gpu.short_status()}<br>" +
+                    tr("Licencia GPL-3.0-or-later.") +
+                    "<br><a href='https://github.com/Aleluya-Git/openrouteai'>github.com/Aleluya-Git/openrouteai</a>")
+        box.setTextFormat(Qt.RichText)
+        box.exec()
 
     def _spin(self, lo, hi, dec=2, step=0.05, val=None, special=None):
         sp = QDoubleSpinBox()
@@ -1359,14 +1369,20 @@ class MainWindow(QMainWindow):
 
 def main(path: Optional[str] = None) -> int:
     from ..i18n import init_language
+    from .branding import app_icon, set_windows_app_id, splash
     init_language()
+    set_windows_app_id()
     app = QApplication.instance() or QApplication(sys.argv)
     app.setApplicationName(APP_NAME)
+    app.setWindowIcon(app_icon())
+    sp = splash(app)
     from .theme import apply_theme
     apply_theme(load_config().get("theme", "light"), app)
     w = MainWindow()
     _WINDOWS.append(w)
     w.show()
+    if sp is not None:
+        sp.finish(w)
     if path:
         w.open_project(path)
     return app.exec()
