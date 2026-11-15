@@ -9,7 +9,7 @@ que se abre directamente en KiCad.
 
 Multiplataforma (Windows, Linux, macOS) · Python 3.10+ · NumPy/SciPy · Qt 6 (PySide6) · GPL-3.0-or-later
 
-> Estado: **v0.6.3**. El enrutado de placas de 2 y 4 capas con SMD y THT funciona
+> Estado: **v0.6.4**. El enrutado de placas de 2 y 4 capas con SMD y THT funciona
 > y se valida automáticamente con DRC propio y, si está instalado, con el DRC oficial de KiCad
 > (`kicad-cli`). Lo que aún no está implementado se detalla en [ROADMAP.md](ROADMAP.md).
 
