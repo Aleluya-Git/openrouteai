@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openrouteai"
-version = "0.6.1"
+version = "0.6.2"
 description = "Autorouter de PCB de código abierto para proyectos KiCad"
 readme = "README.md"
 license = {text = "GPL-3.0-or-later"}
@@ -23,4 +23,4 @@ include = ["openrouteai*"]
 
 [tool.setuptools.package-data]
 "openrouteai.routing" = ["_native/*.c", "_native/*.dll", "_native/*.so", "_native/*.dylib", "_native/build.sh"]
-"openrouteai.gui" = ["resources/*.png", "resources/*.ico"]
+"openrouteai.gui" = ["resources/*.png", "resources/*.ico", "resources/icons/*.png"]

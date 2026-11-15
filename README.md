@@ -9,7 +9,7 @@ que se abre directamente en KiCad.
 
 Multiplataforma (Windows, Linux, macOS) · Python 3.10+ · NumPy/SciPy · Qt 6 (PySide6) · GPL-3.0-or-later
 
-> Estado: **v0.6.1**. El enrutado de placas de 2 y 4 capas con SMD y THT funciona
+> Estado: **v0.6.2**. El enrutado de placas de 2 y 4 capas con SMD y THT funciona
 > y se valida automáticamente con DRC propio y, si está instalado, con el DRC oficial de KiCad
 > (`kicad-cli`). Lo que aún no está implementado se detalla en [ROADMAP.md](ROADMAP.md).
 
@@ -49,7 +49,7 @@ Multiplataforma (Windows, Linux, macOS) · Python 3.10+ · NumPy/SciPy · Qt 6 (
   *Aplicar a redes selecc.* cambia el ancho de sus pistas y se usa al reenrutar; *Aplicar a vías selecc.*
   cambia las vías elegidas en la vista; *A redes selecc.* usa ese tamaño para todas las vías de esas redes.
 - **Barra superior**: Abrir, Guardar, Enrutar todo (F5), Reenrutar selección, DRC, Borrar enrutado,
-  Mover huellas (M), Girar 90°, Cambiar de cara, Editar pistas (E), Deshacer y Rellenar zonas (B), con selector de rejilla de colocación.
+  Mover huellas (M), Girar 90°, Cambiar de cara, Editar pistas (E), Deshacer y Rellenar zonas (B), con selector de rejilla de colocación y Preferencias.
 - **Mover huellas** (M): clic, Ctrl+clic o cuadro de selección (de izquierda a derecha: huellas enteras
   dentro; de derecha a izquierda: basta con tocarlas). Arrastra para mover el grupo; **R** gira 90°
   (Mayús+R al revés), **Esc** cancela. Las pistas siguen el movimiento: si todas las huellas de una
@@ -68,7 +68,7 @@ Multiplataforma (Windows, Linux, macOS) · Python 3.10+ · NumPy/SciPy · Qt 6 (
   con pistas. **Rellenar zonas** (B) recalcula todos los rellenos (también las zonas del archivo); tras
   mover huellas o editar pistas el relleno se marca como desactualizado (más tenue) y se recalcula solo
   al guardar. El DRC comprueba el relleno frente al cobre de otras redes.
-- **Modo oscuro / claro**: menú *Ver* (se recuerda en `~/.openrouteai/config.json`).
+- **Modo oscuro / claro**: menú *Ver* o **Preferencias** (idioma, tema y rejilla), en la barra superior; se recuerda en `~/.openrouteai/config.json`.
 - **Deshacer** (Ctrl+Z): hasta 30 pasos de movimientos y ediciones.
 - Al seleccionar redes en la pestaña «Redes» se resaltan sus pads, pistas y vías.
 - **Pistas y vías**: tabla editable de clases de red (pista, vía, taladro, clearance), diámetro de vía

@@ -219,6 +219,9 @@ class MainWindow(QMainWindow):
         self.cb_snap.setToolTip(tr("Rejilla a la que se ajustan huellas y pistas al moverlas"))
         self.cb_snap.currentIndexChanged.connect(lambda _: setattr(self.view, "snap", float(self.cb_snap.currentData())))
         tb.addWidget(self.cb_snap)
+        tb.addSeparator()
+        self.act_prefs = act("prefs", tr("Preferencias"), tr("Idioma, tema claro/oscuro y rejilla de colocación"),
+                             self.preferences)
         self.act_select.setChecked(True)
 
     def _build_menu(self):
@@ -269,6 +272,41 @@ class MainWindow(QMainWindow):
         a = QAction(tr("Acerca de"), self)
         a.triggered.connect(self._about)
         h.addAction(a)
+
+    def preferences(self):
+        """Diálogo de preferencias: idioma, tema y rejilla."""
+        from PySide6.QtWidgets import QDialog, QDialogButtonBox
+        dlg = QDialog(self)
+        dlg.setWindowTitle(tr("Preferencias"))
+        f = QFormLayout(dlg)
+        cb_lang = QComboBox()
+        for code, name in LANGUAGES.items():
+            cb_lang.addItem(name, code)
+        cb_lang.setCurrentIndex(max(0, list(LANGUAGES).index(language()) if language() in LANGUAGES else 0))
+        f.addRow(tr("Idioma") + " / Language", cb_lang)
+        cb_theme = QComboBox()
+        cb_theme.addItem(tr("Tema claro"), "light")
+        cb_theme.addItem(tr("Tema oscuro"), "dark")
+        cb_theme.setCurrentIndex(1 if self.act_dark.isChecked() else 0)
+        f.addRow(tr("Tema"), cb_theme)
+        cb_grid = QComboBox()
+        for i in range(self.cb_snap.count()):
+            cb_grid.addItem(self.cb_snap.itemText(i), self.cb_snap.itemData(i))
+        cb_grid.setCurrentIndex(self.cb_snap.currentIndex())
+        f.addRow(tr("Rejilla:"), cb_grid)
+        bb = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        bb.accepted.connect(dlg.accept)
+        bb.rejected.connect(dlg.reject)
+        f.addRow(bb)
+        if dlg.exec() != QDialog.Accepted:
+            return
+        self.cb_snap.setCurrentIndex(cb_grid.currentIndex())
+        dark = cb_theme.currentData() == "dark"
+        if dark != self.act_dark.isChecked():
+            self.act_dark.setChecked(dark)          # aplica y guarda el tema
+        code = cb_lang.currentData()
+        if code and code != language():
+            self.switch_language(code)
 
     def set_theme(self, dark: bool):
         from .theme import apply_theme

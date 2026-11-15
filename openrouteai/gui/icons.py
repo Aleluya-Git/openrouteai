@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import math
+import os
 from typing import Dict
 
 from PySide6.QtCore import QPointF, QRectF, Qt
@@ -11,7 +12,7 @@ COLORS = {
     "open": "#f2b632", "save": "#8e5bd6", "route": "#2fa84f", "partial": "#f08a24",
     "drc": "#2f7fd6", "clear": "#d64545", "move": "#7a5af0", "rotate": "#13a3a3",
     "track": "#e0457b", "undo": "#6b7280", "select": "#1f9fd6", "flip": "#c2410c", "fill": "#b8860b",
-    "theme": "#374151",
+    "theme": "#374151", "prefs": "#4b5563",
 }
 _cache: Dict[str, QIcon] = {}
 S = 64
@@ -131,6 +132,15 @@ def _draw(name: str, qp: QPainter):
         path.addEllipse(QPointF(39, 28), 3.5, 3.5)
         path.setFillRule(Qt.OddEvenFill)
         qp.drawPath(path)
+    elif name == "prefs":
+        _circle(qp, c)
+        qp.setPen(_white(5))
+        qp.setBrush(Qt.NoBrush)
+        qp.drawEllipse(QPointF(32, 32), 11, 11)
+        for k in range(8):
+            a = math.radians(k * 45)
+            qp.drawLine(QPointF(32 + 15 * math.cos(a), 32 + 15 * math.sin(a)),
+                        QPointF(32 + 21 * math.cos(a), 32 + 21 * math.sin(a)))
     elif name == "theme":
         _circle(qp, c)
         qp.setPen(Qt.NoPen)
@@ -140,8 +150,21 @@ def _draw(name: str, qp: QPainter):
         qp.drawEllipse(QPointF(40, 26), 13, 13)
 
 
+_ICON_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources", "icons")
+
+
 def icon(name: str) -> QIcon:
+    """Icono de la barra de herramientas: imagen de resources/icons si existe, si no se dibuja."""
     if name not in _cache:
+        png = os.path.join(_ICON_DIR, name + ".png")
+        if os.path.exists(png):
+            base = QPixmap(png)
+            if not base.isNull():
+                ic = QIcon()
+                for s in (16, 24, 32, 48, 64, 128):
+                    ic.addPixmap(base.scaled(s, s, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                _cache[name] = ic
+                return ic
         pm = QPixmap(S, S)
         pm.fill(Qt.transparent)
         qp = QPainter(pm)
